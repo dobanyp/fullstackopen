@@ -5,7 +5,7 @@ const Display = ({ persons }) => {
         <>
             {persons.map(person => {
                 return (
-                    <Persons key={person.name} newName={person.name} newNumber={person.number} />
+                    <Persons key={person.id} newName={person.name} newNumber={person.number} />
                 )
             })}
         </>

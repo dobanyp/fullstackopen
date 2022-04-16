@@ -7,16 +7,21 @@ import axios from "axios";
 
 function App() {
 
-  const [persons, setPersons] = useState([{
-    name: "Peter Dobany",
-    number: "36704767987"
-  }])
-
+  //states
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
 
-  //functions
+  //effect
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then(res => { setPersons(res.data) })
+      .catch(err => console.log(404))
+  }, [])
+
+  //functions
   const submitPerson = (e) => {
     e.preventDefault()
     let newNameObject = {
@@ -46,6 +51,8 @@ function App() {
   const handleNewNumber = (e) => {
     setNewNumber(e.target.value)
   }
+
+
 
   return (
     <>
