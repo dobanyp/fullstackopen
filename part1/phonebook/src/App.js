@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Display from "./components/display";
 import Form from "./components/form";
+import personService from "./services/calls"
 import axios from "axios";
 
 
@@ -15,10 +16,9 @@ function App() {
   //effect
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then(res => { setPersons(res.data) })
-      .catch(err => console.log(404))
+    personService
+      .getAll()
+      .then(res => setPersons(res.data))
   }, [])
 
   //functions
@@ -28,20 +28,9 @@ function App() {
       name: newName,
       number: newNumber
     }
-
-    const checkNameRepeat = () => {
-      let jsonArray = persons.map(person => JSON.stringify(person))
-      let newNameString = JSON.stringify(newNameObject)
-
-      if (jsonArray.includes(newNameString)) {
-        alert(`${newName} is already added to the phonebook!`)
-      } else {
-        setPersons(persons.concat(newNameObject))
-        setNewName("")
-        setNewNumber("")
-      }
-    }
-    checkNameRepeat()
+    personService
+      .create(newNameObject)
+      .then(res => (setPersons(persons.concat(res.data))))
   }
 
   const handleNewName = (e) => {
@@ -51,8 +40,6 @@ function App() {
   const handleNewNumber = (e) => {
     setNewNumber(e.target.value)
   }
-
-
 
   return (
     <>
