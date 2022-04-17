@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Display from "./components/display";
 import Form from "./components/form";
 import personService from "./services/calls"
-import axios from "axios";
 
 
 
@@ -31,6 +30,8 @@ function App() {
     personService
       .create(newNameObject)
       .then(res => (setPersons(persons.concat(res.data))))
+    setNewName("")
+    setNewNumber("")
   }
 
   const handleNewName = (e) => {
@@ -46,7 +47,7 @@ function App() {
       <h1>Phonebook</h1>
       <Form newName={newName} newNumber={newNumber} handleNewName={handleNewName} handleNewNumber={handleNewNumber} onSubmit={submitPerson} />
       <h2>Numbers</h2>
-      <Display persons={persons} />
+      <Display persons={persons} setPersons={setPersons} />
     </>
   );
 }
